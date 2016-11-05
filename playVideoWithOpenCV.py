@@ -1,20 +1,23 @@
-import cv
+import cv2
+import sys
 
-vidFile = cv.CaptureFromFile( '/home/root/Desktop/Test/Intel.mp4' )
+try:
+    vidFile = cv2.VideoCapture(sys.argv[1])
+except:
+    print "problem opening input stream"
+    sys.exit(1)
+if not vidFile.isOpened():
+    print "capture stream not open"
+    sys.exit(1)
 
-nFrames = int(  cv.GetCaptureProperty( vidFile, cv.CV_CAP_PROP_FRAME_COUNT ) )
-fps = cv.GetCaptureProperty( vidFile, cv.CV_CAP_PROP_FPS )
-waitPerFrameInMillisec = int( 1/fps * 1000/1 )
+nFrames = int(vidFile.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)) # one good way of namespacing legacy openCV: cv2.cv.*
+print "frame number: %s" %nFrames
+fps = vidFile.get(cv2.cv.CV_CAP_PROP_FPS)
+print "FPS value: %s" %fps
 
-print 'Num. Frames = ', nFrames
-print 'Frame Rate = ', fps, ' frames per sec'
-
-for f in xrange( nFrames ):
-  frameImg = cv.QueryFrame( vidFile )
-  cv.ShowImage( "My Video Window",  frameImg )
-  cv.WaitKey( waitPerFrameInMillisec  )
-
-# When playing is done, delete the window
-#  NOTE: this step is not strictly necessary, 
-#         when the script terminates it will close all windows it owns anyways
-cv.DestroyWindow( "My Video Window" )
+ret, frame = vidFile.read() # read first frame, and the return code of the function.
+while ret:  # note that we don't have to use frame number here, we could read from a live written file.
+    print "yes"
+    cv2.imshow("frameWindow", frame)
+    cv2.waitKey(int(1/fps*1000)) # time to wait between frames, in mSec
+    ret, frame = vidFile.read() # read next frame, get next return code

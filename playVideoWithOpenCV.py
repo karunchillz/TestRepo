@@ -1,6 +1,6 @@
 import cv
 
-vidFile = cv.CaptureFromFile( '/home/mhughes/sintel_trailer-480p.mp4' )
+vidFile = cv.CaptureFromFile( '/home/root/Desktop/Test/Intel.mp4' )
 
 nFrames = int(  cv.GetCaptureProperty( vidFile, cv.CV_CAP_PROP_FRAME_COUNT ) )
 fps = cv.GetCaptureProperty( vidFile, cv.CV_CAP_PROP_FPS )

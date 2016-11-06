@@ -1,32 +1,22 @@
-#include <opencv2/highgui/highgui.hpp>
-#include <iostream>
-#include <opencv2\core\core.hpp>
 #include "opencv2/opencv.hpp"
-int main(int argc, char** argv)
+
+using namespace cv;
+
+int main(int, char**)
 {
-cvNamedWindow("Example3", CV_WINDOW_AUTOSIZE);
+VideoCapture cap("Intel.avi"); // open the default camera
+//Video Capture cap(path_to_video); // open the video file
+if(!cap.isOpened())  // check if we succeeded
+    return -1;
 
-//CvCapture* capture = cvCreateFileCapture("20051210-w50s.flv");
-CvCapture* capture = cvCreateFileCapture("Intel.avi");
-/* if(!capture)
-    {
-        std::cout <<"Video Not Opened\n";
-        return -1;
-    }*/
-IplImage* frame = NULL;
-
-while(1) {
-
-    frame = cvQueryFrame(capture);
-    //std::cout << "Inside loop\n";
-    if (!frame)
-        break;
-    cvShowImage("Example3", frame);
-    char c = cvWaitKey(33);
-    if (c == 27) break;
+namedWindow("Video",1);
+for(;;)
+{
+    Mat frame;
+    cap >> frame; // get a new frame from camera        
+    imshow("Video", frame);
+    if(waitKey(30) >= 0) break;
 }
-cvReleaseCapture(&capture);
-cvDestroyWindow("Example3");
-std::cout << "Hello!";
+// the camera will be deinitialized automatically in VideoCapture destructor
 return 0;
 }

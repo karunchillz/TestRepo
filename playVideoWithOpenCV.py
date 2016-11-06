@@ -1,5 +1,5 @@
 import cv2
-cap = cv2.VideoCapture('Intel.avi')
+cap = cv2.VideoCapture('Intel.mp4')
 count = 0
 while cap.isOpened():
     ret,frame = cap.read()

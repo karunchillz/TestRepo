@@ -1,8 +1,8 @@
 import cv2
 
-cap = cv2.VideoCapture("./out.mp4")
+cap = cv2.VideoCapture("Intel.mp4")
 while not cap.isOpened():
-    cap = cv2.VideoCapture("./out.mp4")
+    cap = cv2.VideoCapture("Intel.mp4")
     cv2.waitKey(1000)
     print "Wait for the header"
 
